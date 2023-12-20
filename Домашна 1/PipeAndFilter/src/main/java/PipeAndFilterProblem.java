@@ -23,8 +23,9 @@ public static List<String> names = new ArrayList<>();
            }
         bufferedReader.close();
 FileWriter writer = new FileWriter("data.csv");
-String collect = String.join(",", names);
-        writer.write(collect);
+   String collect = String.join(",", names)
+
+       writer.write(collect);
         writer.close();
 
         FileReader f = new FileReader("data.csv");
