@@ -19,22 +19,14 @@ public class Place {
 
     @NotEmpty
     @NotNull
-    private String name;
+    private Double latitude;
 
     @NotEmpty
     @NotNull
-    private String location;
+    private Double longitude;
 
-    public Place(String name, String location) {
-        this.name = name;
-        this.location = location;
-    }
+    @NotEmpty
+    @NotNull
+    private String name;
 
-    public String getName() {
-        return name;
-    }
-
-    public String getLocation() {
-        return location;
-    }
 }
