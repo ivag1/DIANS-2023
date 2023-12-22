@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface PlacesService {
     List<Place> findAllPlaces();
     Optional<Place> findPlaceById(Long id);
+
+    List<Place> findByText(String text);
 }

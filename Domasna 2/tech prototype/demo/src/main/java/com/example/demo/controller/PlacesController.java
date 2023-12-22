@@ -29,8 +29,12 @@ public class PlacesController {
 //    }
 
     @GetMapping(value="/all")
-    public String getMap(Model model){
-        model.addAttribute("places",placesService.findAllPlaces());
+    public String getMap(@RequestParam (name="text",required=false) String text, Model model){
+        if(text==null||text.isEmpty()){
+            model.addAttribute("places",placesService.findAllPlaces());
+        }else {
+            model.addAttribute("places", placesService.findByText(text));
+        }
         return "map";
     }
 
