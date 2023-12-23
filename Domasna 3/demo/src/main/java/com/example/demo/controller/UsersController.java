@@ -1,14 +1,13 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Place;
+import com.example.demo.model.User;
 import com.example.demo.service.UsersService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/users")
@@ -21,20 +20,44 @@ public class UsersController {
         this.usersService = usersService;
     }
 
-    @GetMapping(value = "/login")
-    public String getLogInPage() {
+    @GetMapping("/login")
+    public String getLoginPage() {
         return "login";
     }
 
-    @GetMapping(value = "/register")
+    @PostMapping("/loginUser")
+    public String login(@RequestParam(value = "username") String username,
+                        @RequestParam(value = "password") String password,
+                        Model model,
+                        HttpSession session){
+//        model.addAttribute("hasError",false);
+//        model.addAttribute("error","");
+        try {
+            User user = this.usersService.login(username, password);
+            session.setAttribute("user",user);
+            return "userMap";
+        }
+        catch (Exception e) {
+            model.addAttribute("hasError", true);
+            model.addAttribute("error", e.getMessage());
+            return "userMap";
+        }
+    }
+
+    @GetMapping("/register")
     public String getRegisterPage() {
         return "register";
     }
 
-    @GetMapping(value = "/userMap")
-    public String getUserMap(Model model) {
-        //todo get info for user, not implemented
-        return "userMap";
+    @PostMapping("/saveNewUser")
+    public String saveNewUser(@RequestParam(value = "username") String username,
+                                @RequestParam(value = "email") String email,
+                                @RequestParam(value = "password") String password,
+                              HttpSession session)
+    {
+        User user = this.usersService.register(username,password,email);
+        session.setAttribute("user",user);
+        return "redirect:/users/login";
     }
 
 }

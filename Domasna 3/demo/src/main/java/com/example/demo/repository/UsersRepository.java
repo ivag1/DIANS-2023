@@ -8,4 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface UsersRepository extends JpaRepository<User, Long> {
+    User findUserByUsername(String username);
+    void deleteUserByUsernameAndPassword(String username, String password);
 }

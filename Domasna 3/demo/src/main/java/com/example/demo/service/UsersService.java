@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UsersService {
-    List<User> findAllUsers();
-    Optional<User> findUserById(Long id);
-    Optional<User> findByUsername(String username);
+    User findUserByUsername(String username);
+    User checkPasswordForUsername(String username, String password);
+    User login(String username,String password);
+    User register (String username, String password, String email);
 }

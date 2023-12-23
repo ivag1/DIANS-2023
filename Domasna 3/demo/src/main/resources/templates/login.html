@@ -26,9 +26,13 @@
               <label for="password" class="form-label">Password</label>
               <input type="password" class="form-control" id="password" name="password" required>
             </div>
+            <div th:if="${hasError}" class="error">
+              <div th:text="${error}"></div>
+            </div>
             <div class="d-grid">
-<!--              <button type="submit" class="btn btn-primary">Login</button><br>-->
-              <a th:href="@{/users/userMap}" class="btn btn-primary">Login</a>
+              <form th:method="post" th:action="@{users/loginUser}">
+                  <button type="submit" class="btn btn-primary">Login</button>
+              </form>
               <a th:href="@{/users/register}" class="btn btn-light">Register</a>
             </div>
           </form>
