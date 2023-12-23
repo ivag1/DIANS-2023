@@ -34,7 +34,13 @@
 
         coordinates.forEach(function(coord) {
             L.marker([coord.latitude, coord.longitude]).addTo(map)
-                .bindPopup('Marker at ' + coord.latitude + ', ' + coord.longitude);
+                .bindPopup(coord.name)
+                .on('mouseover',function(){
+                    this.openPopup();
+                })
+                .on('mouseout',function(){
+                    this.closePopup();
+                });
         });
 
         $(document).ready(function() {
