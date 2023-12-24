@@ -17,10 +17,14 @@
           <h3 class="card-title text-center">Register</h3>
         </div>
         <div class="card-body">
-          <form>
+          <form method="POST" action="/register">
             <div class="mb-3">
               <label for="username" class="form-label">Username</label>
               <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" class="form-control" id="name" name="name" required>
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
@@ -30,10 +34,15 @@
               <label for="password" class="form-label">Password</label>
               <input type="password" class="form-control" id="password" name="password" required>
             </div>
+            <div class="mb-3">
+              <label for="repeatPassword" class="form-label">Repeat Password</label>
+              <input type="password" class="form-control" id="repeatPassword" name="repeatPassword" required>
+            </div>
+            <div th:if="${hasError}">
+              <div th:text="${error}" class="text-danger"></div>
+            </div>
             <div class="d-grid">
-              <form th:method="post" th:action="@{/users/saveNewUser}">
                 <button type="submit" class="btn btn-primary">Register</button>
-              </form>
             </div>
           </form>
         </div>

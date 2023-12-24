@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UsersRepository extends JpaRepository<User, Long> {
-    User findUserByUsername(String username);
-    void deleteUserByUsernameAndPassword(String username, String password);
+public interface UsersRepository extends JpaRepository<User, String> {
+    Optional<User> findUserByUsername(String username);
+    Optional<User> findUserByUsernameAndPassword(String username,String password);
+    Optional<User> deleteUserByUsernameAndPassword(String username, String password);
 }

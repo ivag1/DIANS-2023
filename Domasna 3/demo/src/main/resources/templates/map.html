@@ -13,6 +13,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.79.0/dist/L.Control.Locate.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.79.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+
 </head>
 <body>
 <div id="map" style="height: 600px"></div>
@@ -22,7 +25,11 @@
         <button class="btn btn-secondary" type="submit" name="search-btn">Search</button>
     </form>
 
-    <a th:href="@{/users/login}" class="btn btn-primary">Log In</a>
+    <a th:href="@{/login}" class="btn btn-primary" id="loginButton">Log In</a>
+    <a th:href="@{/logout}" class="btn btn-secondary" id="logoutButton">Log Out</a>
+    <div th:if="${session.user != null}">
+        Your favourite places here
+    </div>
     <script th:inline="javascript">
         let map = L.map('map').setView([41.6086, 21.7453], 8);
 
@@ -30,7 +37,10 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        var coordinates = /*[[${places}]]*/ [];
+        L.control.locate().addTo(map);
+
+        let coordinates = /*[[${places}]]*/ [];
+        let user = /*[[${session.user}]]*/ null;
 
         coordinates.forEach(function(coord) {
             L.marker([coord.latitude, coord.longitude]).addTo(map)
@@ -48,6 +58,14 @@
                 source: coordinates,
                 autoSelect: true
             });
+            if(user!=null){
+                $('#loginButton').hide();
+                $('#logoutButton').show();
+            }
+            else{
+                $('#loginButton').show();
+                $('#logoutButton').hide();
+            }
         });
     </script>
 

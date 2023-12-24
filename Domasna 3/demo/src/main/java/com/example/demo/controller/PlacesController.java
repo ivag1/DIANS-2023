@@ -27,7 +27,7 @@ public class PlacesController {
 //        return new ResponseEntity<>(placesService.findAllPlaces(), HttpStatus.OK);
 //    }
 
-    @GetMapping(value="/all")
+    @GetMapping("/all")
     public String getMap(@RequestParam (name="text",required=false) String text, Model model){
         if(text==null||text.isEmpty()){
             model.addAttribute("places",placesService.findAllPlaces());

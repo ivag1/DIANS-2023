@@ -7,7 +7,6 @@ import java.util.Optional;
 
 public interface UsersService {
     User findUserByUsername(String username);
-    User checkPasswordForUsername(String username, String password);
-    User login(String username,String password);
-    User register (String username, String password, String email);
+    User findUserByUsernameAndPassword(String username, String password);
+    User deleteUserByUsernameAndPassword(String username, String password);
 }
