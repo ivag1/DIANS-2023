@@ -7,12 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PlacesRepository extends JpaRepository<Place,Long> {
-    List<Place> places = new ArrayList<>();
-
-    @Override
-    <S extends Place> List<S> findAll(Example<S> example);
-
+    Optional<Place> findPlaceByName(String name);
 }

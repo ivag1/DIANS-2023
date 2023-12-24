@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "users")
@@ -30,10 +33,22 @@ public class User {
     @NotNull
     private String password;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "favorite_places",
+            joinColumns = @JoinColumn(name = "username"),
+            inverseJoinColumns = @JoinColumn(name = "placeId"))
+    private List<Place> favoritePlaces;
+
     public User(String username, String name, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.name = name;
+        this.favoritePlaces = new ArrayList<>();
+    }
+
+    public void setFavoritePlace(Place favoritePlace) {
+        this.favoritePlaces.add(favoritePlace);
     }
 }
