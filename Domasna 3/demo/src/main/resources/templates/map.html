@@ -18,6 +18,8 @@
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.79.0/dist/L.Control.Locate.min.js"
             charset="utf-8"></script>
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
     <style>
         .btn-pink {
             color: white;
@@ -34,6 +36,9 @@
             color: #ff4081;
             background-color: white;
             border-color: #ff4081;
+        }
+        .create-route{
+            font-size: 10px;
         }
     </style>
 
@@ -79,17 +84,18 @@
 
     coordinates.forEach(function (coord) {
         L.marker([coord.latitude, coord.longitude]).addTo(map)
-            .bindPopup(coord.name)
-            .on('mouseover', function () {
-                this.openPopup();
-            })
-            .on('mouseout', function () {
-                this.closePopup();
-            })
+            .bindPopup(`<div>${coord.name}</div><button id="calculate-route" class="btn btn-primary" onclick="createRoute()">Calculate Route</button>`)
+            // .on('mouseover', function () {
+            //     this.openPopup();
+            // })
+            // .on('mouseout', function () {
+            //     this.closePopup();
+            // })
             .on('click', function () {
                 selected = this;
                 if (user != null)
                     $("#addToFavourites").prop("disabled", false);
+                this.openPopup();
             });
     });
 
@@ -100,6 +106,35 @@
     $('#addToFavourites').on("click", function () {
         addToFavourites(selected);
     });
+    function createRoute() {
+        if (selected) {
+            map.locate({
+                setView: true,
+                maxZoom: 16,
+                watch: false,
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            }).on('locationfound', function (e) {
+                // Mark current location on the map
+                L.marker([e.latitude, e.longitude]).addTo(map).bindPopup('Your Location').openPopup();
+
+                // Create route from current location to the selected destination
+                L.Routing.control({
+                    waypoints: [
+                        L.latLng(e.latitude, e.longitude), // Current location
+                        L.latLng(selected.getLatLng().lat, selected.getLatLng().lng) // Selected destination
+                    ],
+                    position: 'bottomright'
+                }).addTo(map);
+                map.fitBounds([selected.getLatLng(), [e.latitude, e.longitude]]);
+            }).on('locationerror', function (e) {
+                console.error('Error getting current location:', e.message);
+            });
+        } else {
+            console.error('No destination selected.');
+        }
+    }
 
     $(document).ready(function () {
         $('#search').typeahead({
@@ -109,12 +144,14 @@
         if (user != null) {
             $('#loginButton').hide();
             $('#logoutButton').show();
+            $('#addToFavourites').show();
         } else {
+            $('#addToFavourites').hide();
             $('#loginButton').show();
             $('#logoutButton').hide();
         }
     });
 </script>
-
+<a id="show-all" href="/places/all" >Show All</a>
 </body>
 </html>
