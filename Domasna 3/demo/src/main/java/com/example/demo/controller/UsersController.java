@@ -30,7 +30,7 @@ public class UsersController {
         try{
             User user = (User) request.getSession().getAttribute("user");
             Place place = this.placesService.findPlaceByName(placeName);
-            this.usersService.addPlaceToFavourites(user.getUsername(),place.getName());
+            this.usersService.addPlaceToFavourites(user.getUsername(), place.getPlaceId());
             return "redirect:/places/all";
         }
         catch (Exception e){

@@ -9,5 +9,5 @@ public interface UsersService {
     User findUserByUsername(String username);
     User findUserByUsernameAndPassword(String username, String password);
     User deleteUserByUsernameAndPassword(String username, String password);
-    void addPlaceToFavourites(String username, String placeName);
+    void addPlaceToFavourites(String username, Long placeId);
 }

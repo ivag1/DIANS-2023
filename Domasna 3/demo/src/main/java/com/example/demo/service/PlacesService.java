@@ -10,4 +10,7 @@ public interface PlacesService {
     Place findPlaceById(Long id);
     List<Place> findByText(String text);
     Place findPlaceByName(String placeName);
+    void refreshDatabase();
+
+    List<Place> readFromCSV();
 }

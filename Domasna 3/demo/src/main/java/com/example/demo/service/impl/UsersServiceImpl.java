@@ -7,6 +7,10 @@ import com.example.demo.model.exceptions.UserNotFoundException;
 import com.example.demo.repository.PlacesRepository;
 import com.example.demo.repository.UsersRepository;
 import com.example.demo.service.UsersService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,6 +20,8 @@ import java.util.Optional;
 public class UsersServiceImpl implements UsersService {
     private final UsersRepository usersRepository;
     private final PlacesRepository placesRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public UsersServiceImpl(UsersRepository usersRepository, PlacesRepository placesRepository) {
         this.usersRepository = usersRepository;
@@ -38,16 +44,18 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void addPlaceToFavourites(String username, String placeName) {
+    @Transactional
+    public void addPlaceToFavourites(String username, Long placeId) {
         Optional<User> user = this.usersRepository.findUserByUsername(username);
-        Optional<Place> place = this.placesRepository.findPlaceByName(placeName);
+        Optional<Place> place = this.placesRepository.findById(placeId);
         if(user.isPresent()){
             if(place.isPresent()) {
                 user.get().setFavoritePlace(place.get());
                 this.usersRepository.save(user.get());
+                this.entityManager.refresh(user.get());
             }
             else
-                throw new PlaceNotFoundException(placeName);
+                throw new PlaceNotFoundException(placeId);
         }
         else
             throw new UserNotFoundException(username);

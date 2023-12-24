@@ -29,4 +29,9 @@ public class Place {
     @NotNull
     private String name;
 
+    public Place(Double latitude, Double longitude, String name) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.name = name;
+    }
 }
