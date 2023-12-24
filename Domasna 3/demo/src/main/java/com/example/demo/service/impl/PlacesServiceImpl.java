@@ -67,7 +67,7 @@ public class PlacesServiceImpl implements PlacesService {
                 Double latitude = Double.parseDouble(row[0]);
                 Double longitude = Double.parseDouble(row[1]);
 
-                Place location = new Place(latitude, longitude, name);
+                Place location = new Place(latitude, longitude, name, "");
                 locations.add(location);
             }
         } catch (IOException | CsvException e) {

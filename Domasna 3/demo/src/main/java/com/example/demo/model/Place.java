@@ -24,14 +24,19 @@ public class Place {
     @NotEmpty
     @NotNull
     private Double longitude;
+    @NotNull
+    private String imageUrl;
 
     @NotEmpty
     @NotNull
     private String name;
 
-    public Place(Double latitude, Double longitude, String name) {
+
+
+    public Place(Double latitude, Double longitude, String name, String imageUrl) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.name = name;
+        this.imageUrl=imageUrl;
     }
 }

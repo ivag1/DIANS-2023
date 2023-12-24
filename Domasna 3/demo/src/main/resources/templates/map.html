@@ -90,7 +90,7 @@
 
     coordinates.forEach(function (coord) {
         L.marker([coord.latitude, coord.longitude]).addTo(map)
-            .bindPopup(`<div id="favouriteLocation">${coord.name}</div><button id="calculate-route" class="btn btn-primary" onclick="createRoute()">Calculate Route</button>`)
+            .bindPopup(`<img alt="Image of ${coord.name}" src="${coord.image}"/><div id="favouriteLocation">${coord.name}</div><button id="calculate-route" class="btn btn-primary" onclick="createRoute()">Calculate Route</button>`)
             .on('mouseover', function () {
                 selected=this;
                 this.openPopup();
