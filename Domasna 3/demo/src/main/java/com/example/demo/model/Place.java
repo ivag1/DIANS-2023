@@ -24,8 +24,6 @@ public class Place {
     @NotEmpty
     @NotNull
     private Double longitude;
-    @NotNull
-    private String imageUrl;
 
     @NotEmpty
     @NotNull
@@ -37,6 +35,5 @@ public class Place {
         this.latitude = latitude;
         this.longitude = longitude;
         this.name = name;
-        this.imageUrl=imageUrl;
     }
 }
