@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "locations")
@@ -29,4 +31,12 @@ public class Place {
     @NotNull
     private String name;
 
+    @ManyToMany(mappedBy = "favoritePlaces")
+    private List<User> favoritedByUsers;
+
+    public Place(double latitude, double longitude, String name) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.name = name;
+    }
 }

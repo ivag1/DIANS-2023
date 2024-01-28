@@ -11,5 +11,5 @@ import java.util.Optional;
 
 @Repository
 public interface PlacesRepository extends JpaRepository<Place,Long> {
-    Optional<Place> findPlaceByName(String name);
+    Place findPlaceByName(String name);
 }

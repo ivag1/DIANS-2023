@@ -38,16 +38,16 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void addPlaceToFavourites(String username, String placeName) {
-        Optional<User> user = this.usersRepository.findUserByUsername(username);
-        Optional<Place> place = this.placesRepository.findPlaceByName(placeName);
+    public void addPlaceToFavourites(String username, Long placeId) {
+        Optional<User> user = this.usersRepository.findById(username);
+        Optional<Place> place = this.placesRepository.findById(placeId);
         if(user.isPresent()){
             if(place.isPresent()) {
                 user.get().setFavoritePlace(place.get());
                 this.usersRepository.save(user.get());
             }
             else
-                throw new PlaceNotFoundException(placeName);
+                throw new PlaceNotFoundException(place.get().getName());
         }
         else
             throw new UserNotFoundException(username);

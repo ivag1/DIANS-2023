@@ -37,7 +37,8 @@ public class User {
     @JoinTable(
             name = "favorite_places",
             joinColumns = @JoinColumn(name = "username"),
-            inverseJoinColumns = @JoinColumn(name = "placeId"))
+            inverseJoinColumns = @JoinColumn(name = "place_id"))
+    //@MapKey(name = "name")
     private List<Place> favoritePlaces;
 
     public User(String username, String name, String email, String password) {
