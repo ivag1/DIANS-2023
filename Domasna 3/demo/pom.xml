@@ -53,11 +53,6 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
@@ -72,11 +67,6 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -85,8 +75,13 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+<!--					<image>-->
+<!--						<builder>paketobuildpacks/builder-jammy-base:latest</builder>-->
+<!--					</image>-->
 					<image>
-						<builder>paketobuildpacks/builder-jammy-base:latest</builder>
+						<env>
+							<BP_JVM_VERSION>17</BP_JVM_VERSION> <!-- or use your ${java.version} property -->
+						</env>
 					</image>
 					<excludes>
 						<exclude>

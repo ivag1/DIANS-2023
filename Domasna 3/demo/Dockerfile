@@ -1,22 +1,15 @@
-FROM maven:3.8.4-openjdk-17 AS builder
+FROM eclipse-temurin:17-jdk-jammy AS build
+ENV HOME=/usr/app
+RUN mkdir -p $HOME
+WORKDIR $HOME
+ADD . $HOME
+RUN --mount=type=cache,target=/root/.m2 ./mvnw -f $HOME/pom.xml clean package
 
-# Set the working directory inside the container
-WORKDIR /app
-
-# Copy the project files
-COPY . .
-
-# Build the application using Maven
-RUN mvn clean install
-
-# Use the same Maven image as the base image for the runtime
-FROM maven:3.8.4-openjdk-17
-
-# Set the working directory inside the container
-WORKDIR /app
-
-# Copy only the JAR file from the builder stage
-COPY --from=builder /app/target/your-app.jar .
-
-# Specify the command to run on container start
-CMD ["java", "-jar", "your-app.jar"]
+#
+# Package stage
+#
+FROM eclipse-temurin:17-jre-jammy
+ARG JAR_FILE=/usr/app/target/*.jar
+COPY --from=build $JAR_FILE /app/runner.jar
+EXPOSE 8080
+ENTRYPOINT java -jar /app/runner.jar
