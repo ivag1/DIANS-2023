@@ -1,0 +1,23 @@
+version: '3'
+services:
+  demo-app:
+    image: demodocker/back
+    build:
+      context: ./demo
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/locations
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+
+  postgres-db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: locations
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
